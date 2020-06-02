@@ -1,0 +1,246 @@
+/*CRUD for car*/
+CREATE OR REPLACE EDITIONABLE PACKAGE BODY cars AS
+PROCEDURE add_car(a_production_date IN car.production_date%TYPE,
+                  a_VIN_number IN car.vin_number%TYPE) AS
+BEGIN
+INSERT INTO Car
+(
+    production_date,
+    VIN_number
+)
+VALUES
+(
+    a_production_date,
+    a_VIN_number
+);
+COMMIT;
+END add_car;
+
+PROCEDURE delete_car (a_car_id IN car.car_id%TYPE) AS
+BEGIN
+    DELETE FROM Car WHERE car_id = a_car_id;
+END delete_car;
+
+PROCEDURE edit_car (a_car_id IN car.car_id%TYPE,
+                        a_production_date IN car.production_date%TYPE,
+                        a_VIN_number IN car.vin_number%TYPE) AS                    
+A_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO A_ROWID FROM version WHERE car_id = a_car_id FOR UPDATE;
+        UPDATE version SET production_date = a_production_date,
+                           VIN_number = a_vin_number                           
+                           WHERE ROWID = A_ROWID;
+        COMMIT;
+END edit_car;
+END cars;
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*CRUD for orders*/
+CREATE OR REPLACE EDITIONABLE PACKAGE BODY orderses AS
+PROCEDURE add_order(o_order_date IN order_date%TYPE) AS
+BEGIN
+INSERT INTO orders
+(
+    order_date
+)
+VALUES
+(
+    o_order_date
+);
+COMMIT;
+END add_order;
+
+PROCEDURE delete_order (o_order_id IN orders.order_id%TYPE) AS
+BEGIN
+    DELETE FROM orders WHERE order_id = o_order_id;
+END delete_order;
+
+PROCEDURE edit_order (o_order_id IN orders.order_id%TYPE,
+                      o_order_date IN orders.order_date%TYPE) AS                    
+O_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO O_ROWID FROM orders WHERE order_id = o_order_id FOR UPDATE;
+        UPDATE version SET order_date = o_order_date                         
+                           WHERE ROWID = O_ROWID;
+        COMMIT;
+END edit_order;
+END orderses;
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*CRUD for version*/
+CREATE OR REPLACE EDITIONABLE PACKAGE BODY versions AS
+PROCEDURE add_version(v_code IN version.code%TYPE,
+                      v_name IN version.name%TYPE,
+                      v_description IN version.description%TYPE,
+                      v_price IN version.price%TYPE) AS
+BEGIN
+INSERT INTO version
+(
+    code, 
+    name,
+    description,
+    price   
+)
+VAlUES
+(
+    v_code,
+    v_name,
+    v_description,
+    v_price
+);
+COMMIT;
+END add_version;
+
+PROCEDURE delete_version (v_version_id IN version_id%TYPE) AS
+BEGIN
+    DELETE FROM version WHERE version_id = v_version_id;
+END delete_version;
+
+PROCEDURE edit_version (v_version_id IN version.version_id%TYPE,
+                        v_code IN version.code%TYPE,
+                        v_name IN version.name%TYPE,
+                        v_description IN version.description%TYPE,
+                        v_price IN version.price%TYPE) AS
+V_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO V_ROWID FROM version WHERE version_id = v_version_id FOR UPDATE;
+        UPDATE version SET code = v_code,
+                           name = v_name,
+                           description = v_description,
+                           price = v_price
+                           WHERE ROWID = V_ROWID;
+        COMMIT;
+END edit_version;
+END versions;
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*CRUD for engine*/
+CREATE OR REPLACE EDITIONABLE PACKAGE BODY Engines AS
+PROCEDURE add_engine (e_code IN Engine.code%TYPE,
+                      e_power IN Engine.power%TYPE,
+                      e_torque IN Engine.torque%TYPE,
+                      e_price IN Engine.price%TYPE) AS
+BEGIN
+INSERT INTO Engine
+(
+    code, 
+    power,
+    torque,
+    price   
+)
+VAlUES
+(
+    e_code,
+    e_power,
+    e_torque,
+    e_price
+);
+COMMIT;
+END add_engine;
+
+PROCEDURE delete_engine (e_engine_id IN engine_id%TYPE) AS
+BEGIN
+    DELETE FROM version WHERE engine_id = e_engine_id;
+END delete_engine;
+
+PROCEDURE edit_engine (e_engine_id IN Engine.engine_id%TYPE,
+                       e_code IN Engine.code%TYPE,
+                       e_power IN Engine.power%TYPE,
+                       e_torque IN Engine.torque%TYPE,
+                       e_price IN Engine.price%TYPE) AS
+E_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO E_ROWID FROM Engine WHERE engine_id = e_engine_id FOR UPDATE;
+        UPDATE version SET code = e_code,
+                           power = e_power,
+                           torque = e_torque,
+                           price = v_price
+                           WHERE ROWID = E_ROWID;
+        COMMIT;
+END edit_engine;
+END Engines;
+
+/*--------------------------------------------------------------------------------------------------------------------------*/
+/*CRUD for Color*/
+CREATE OR REPLACE EDITIONABLE PACKAGE BODY colors AS
+PROCEDURE add_color (c_name IN Color.name%TYPE,
+                     c_code IN Color.code%TYPE) AS
+BEGIN
+INSERT INTO Color
+(
+    name,
+    code  
+)
+VAlUES
+(
+    c_name,
+    c_code
+);
+COMMIT;
+END add_color;
+
+PROCEDURE delete_color (c_color_id IN color_id%TYPE) AS
+BEGIN
+    DELETE FROM version WHERE color_id = c_color_id;
+END delete_color;
+
+PROCEDURE edit_color (c_color_id IN Color.color_id%TYPE,
+                      c_name IN Color.name%TYPE,
+                      c_code IN Color.code%TYPE) AS
+C_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO C_ROWID FROM color WHERE color_id = c_color_id FOR UPDATE;
+        UPDATE version SET name = c_name,
+                           code = c_code
+                           WHERE ROWID = C_ROWID;
+        COMMIT;
+END edit_color;
+END colors;
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*CRUD Gearbox*/
+CREATE OR REPLACE EDITIONABLE PACKAGE BODY gearboxes AS
+PROCEDURE add_gearbox (g_type IN Gearbox.type%TYPE,
+                       g_code IN Gearbox.code%TYPE,
+                       g_name IN Gearbox.name%TYPE,
+                       g_price IN Gearbox.price%TYPE) AS
+BEGIN
+INSERT INTO Gearbox
+(
+    type,
+    code,
+    name,
+    price
+)
+VAlUES
+(
+    g_type,
+    g_code,
+    g_name,
+    g_price
+);
+COMMIT;
+END add_gearbox;
+
+PROCEDURE delete_gearbox (g_gearbox_id IN gearbox_id%TYPE) AS
+BEGIN
+    DELETE FROM version WHERE gearbox_id = g_gearbox_id;
+END delete_gearbox;
+
+PROCEDURE edit_gearbox (g_gearbox_id IN Gearbox.gearbox_id%TYPE,
+                        g_type IN Gearbox.type%TYPE,
+                        g_code IN Gearbox.code%TYPE,
+                        g_name IN Gearbox.name%TYPE,
+                        g_price IN Gearbox.price%TYPE) AS
+G_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO G_ROWID FROM gearbox WHERE gearbox_id = g_gearbox_id FOR UPDATE;
+        UPDATE version SET type = g_type,
+                           code = g_code,
+                           name = g_name,
+                           price = g_price
+                           WHERE ROWID = G_ROWID;
+        COMMIT;
+END edit_gearbox;
+END gearboxes;
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*Logowanie*/
