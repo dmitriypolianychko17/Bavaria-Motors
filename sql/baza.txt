@@ -1,0 +1,103 @@
+CREATE TABLE Car
+(
+    car_id NUMBER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
+    brand VARCHAR2(50) NOT NULL,
+    model VARCHAR2(50) NOT NULL,
+    production_year NUMBER NOT NULL,
+    base_price FLOAT(120) NOT NULL,
+    CONSTRAINT car_id_PK PRIMARY KEY (car_id)
+);
+
+CREATE TABLE Complete_set
+(
+    complete_set_id NUMBER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
+    car_id NUMBER NOT NULL,
+    version_id NUMBER NOT NULL,
+    engine_id NUMBER NOT NULL,
+    color_id NUMBER NOT NULL,
+    gearbox_id NUMBER NOT NULL,
+    CONSTRAINT complete_set_id_PK PRIMARY KEY (complete_set_id),
+    CONSTRAINT car_fk_complete_set 
+        FOREIGN KEY (car_id)
+        REFERENCES Car(car_id),
+    CONSTRAINT version_fk_complete_set
+        FOREIGN KEY (version_id)
+        REFERENCES Version(version_id),
+    CONSTRAINT engine_fk_complete_set
+        FOREIGN KEY (engine_id)
+        REFERENCES Engine(engine_id),
+    CONSTRAINT color_fk_complete_set
+        FOREIGN KEY (color_id)
+        REFERENCES Color(color_id),
+    CONSTRAINT gearbox_fk_complete_set
+        FOREIGN KEY (gearbox_id)
+        REFERENCES Gearbox(gearbox_id)
+);
+
+CREATE TABLE Orders
+(
+     order_id NUMBER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
+     client_id NUMBER NOT NULL,
+     complete_set_id NUMBER NOT NULL,
+     order_date DATE NOT NULL,
+     full_price FLOAT(120),
+    CONSTRAINT order_id_PK PRIMARY KEY (order_id),
+    CONSTRAINT order_fk_client
+        FOREIGN KEY (client_id)
+        REFERENCES client (client_id),
+    CONSTRAINT order_fk_complete_set
+        FOREIGN KEY (complete_set_id)
+        REFERENCES Complete_set(complete_set_id)
+);
+
+CREATE TABLE Client
+(
+    client_id  NUMBER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
+    passport_number VARCHAR2(20) NOT NULL,
+    firstname VARCHAR2(24) NOT NULL,
+    lastname VARCHAR2(40) NOT NULL,
+    gmail VARCHAR2(40) NOT NULL,
+    client_password VARCHAR(50) NOT NULL,
+    address VARCHAR2(40) NOT NULL,
+    function VARCHAR2(50),
+    CONSTRAINT client_id_PK PRIMARY KEY (client_id),
+    CONSTRAINT passport_number_uk UNIQUE (passport_number)
+);
+
+CREATE TABLE Version
+(
+    version_id NUMBER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
+    version_code VARCHAR2(12) NOT NULL,
+    version_name VARCHAR2(12) NOT NULL,
+    description VARCHAR2(40) NOT NULL,
+    price FLOAT(120) NOT NULL,
+    CONSTRAINT version_id_PK PRIMARY KEY (version_id)     
+);
+
+CREATE TABLE Engine
+(
+    engine_id  NUMBER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
+    engine_code VARCHAR2(12) NOT NULL,
+    power NUMBER(4) NOT NULL,
+    torque NUMBER(5) NOT NULL,
+    price FLOAT(120) NOT NULL,
+    CONSTRAINT engine_id_PK PRIMARY KEY (engine_id)
+);
+
+CREATE TABLE Color
+(
+    color_id  NUMBER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
+    color_name VARCHAR2(12) NOT NULL,
+    color_code VARCHAR2(12) NOT NULL,
+    CONSTRAINT color_id_PK PRIMARY KEY (color_id)
+);
+
+CREATE TABLE Gearbox
+(
+    gearbox_id  NUMBER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
+    type VARCHAR2(12) NOT NULL,
+    code VARCHAR2(12) NOT NULL,
+    gearbox_name VARCHAR2(24) NOT NULL,
+    price FLOAT(120) NOT NULL,
+    CONSTRAINT gearbox_id_PK PRIMARY KEY (gearbox_id)
+);

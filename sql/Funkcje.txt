@@ -1,0 +1,422 @@
+/*CRUD for carses*/
+create or replace PACKAGE BODY CARSES AS
+
+  PROCEDURE add_car (a_brand IN car.brand%TYPE,
+                   a_model IN car.model%TYPE,
+                   a_production_year IN car.production_year%TYPE,
+                   a_base_price IN car.base_price%TYPE) AS
+  BEGIN
+    INSERT INTO car
+(
+    brand,
+    model,
+    production_year,
+    base_price
+)
+VALUES
+(
+    a_brand,
+    a_model,
+    a_production_year,
+    a_base_price
+);
+COMMIT;
+  END add_car;
+
+  PROCEDURE delete_car (a_car_id IN car.car_id%TYPE) AS
+  BEGIN
+     DELETE FROM Car WHERE car_id = a_car_id;
+  END delete_car;
+
+PROCEDURE edit_car  (a_car_id IN car.car_id%TYPE,
+                     a_brand IN car.brand%TYPE,
+                     a_model IN car.model%TYPE,
+                     a_production_year IN car.production_year%TYPE,
+                     a_base_price IN car.base_price%TYPE) AS
+    A_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO A_ROWID FROM car WHERE car_id = a_car_id FOR UPDATE;
+        UPDATE car SET brand = a_brand,
+                       model = a_model,
+                       production_year = a_production_year,
+                       base_price = a_base_price WHERE ROWID = A_ROWID;
+COMMIT;
+END edit_car;
+
+END CARSES;
+/*CRUD for versions*/
+create or replace PACKAGE BODY VERSIONS AS
+
+  PROCEDURE add_version(v_version_code IN version.version_code%TYPE,
+                      v_version_name IN version.version_name%TYPE,
+                      v_description IN version.description%TYPE,
+                      v_price IN version.price%TYPE) AS
+  BEGIN
+    INSERT INTO version
+(
+    version_code, 
+    version_name,
+    description,
+    price   
+)
+VAlUES
+(
+    v_version_code,
+    v_version_name,
+    v_description,
+    v_price
+);
+COMMIT;
+  END add_version;
+
+  PROCEDURE delete_version (v_version_id IN version.version_id%TYPE) AS
+  BEGIN
+    DELETE FROM version WHERE version_id = v_version_id;
+  END delete_version;
+
+  PROCEDURE edit_version (v_version_id IN version.version_id%TYPE,
+                        v_version_code IN version.version_code%TYPE,
+                        v_version_name IN version.version_name%TYPE,
+                        v_description IN version.description%TYPE,
+                        v_price IN version.price%TYPE) AS
+  V_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO V_ROWID FROM version WHERE version_id = v_version_id FOR UPDATE;
+        UPDATE version SET version_code = v_version_code,
+                           version_name = v_Version_name,
+                           description = v_description,
+                           price = v_price
+                           WHERE ROWID = V_ROWID;
+        COMMIT;
+  END edit_version;
+
+END VERSIONS;
+/*CRUD for colorses*/
+create or replace PACKAGE BODY COLORSES AS
+
+  PROCEDURE add_color (c_name IN color.color_name%TYPE,
+                       c_color_code IN color.color_code%TYPE) AS
+  BEGIN
+    INSERT INTO Color
+(
+    color_name,
+    color_code 
+)
+VAlUES
+(
+    c_name,
+    c_color_code
+);
+COMMIT;
+  END add_color;
+
+  PROCEDURE delete_color (c_color_id IN color.color_id%TYPE) AS
+  BEGIN
+        DELETE FROM color WHERE color_id = c_color_id;
+  END delete_color;
+
+  PROCEDURE edit_color (c_color_id IN color.color_id%TYPE,
+                        c_name IN color.color_name%TYPE,
+                        c_color_code IN color.color_code%TYPE) AS
+C_ROWID ROWID;
+  BEGIN
+        SELECT ROWID INTO C_ROWID FROM color WHERE color_id = c_color_id FOR UPDATE;
+        UPDATE color SET color_name = c_name,
+                           color_code = c_color_code
+                           WHERE ROWID = C_ROWID;
+        COMMIT;
+END edit_color;
+
+END COLORSES;
+/*CRUD for engines*/
+create or replace PACKAGE BODY ENGINES AS
+
+  PROCEDURE add_engine (e_engine_code IN Engine.engine_code%TYPE,
+                        e_power IN Engine.power%TYPE,
+                        e_torque IN Engine.torque%TYPE,
+                        e_price IN Engine.price%TYPE) AS
+  BEGIN
+    INSERT INTO Engine (
+    engine_code, 
+    power,
+    torque,
+    price   
+)
+VAlUES (
+    e_engine_code,
+    e_power,
+    e_torque,
+    e_price
+);
+COMMIT;
+  END add_engine;
+
+  PROCEDURE delete_engine (e_engine_id IN engine.engine_id%TYPE) AS
+  BEGIN
+     DELETE FROM engine WHERE engine_id = e_engine_id;
+  END delete_engine;
+
+  PROCEDURE edit_engine (e_engine_id IN Engine.engine_id%TYPE,
+                         e_engine_code IN Engine.engine_code%TYPE,
+                         e_power IN Engine.power%TYPE,
+                         e_torque IN Engine.torque%TYPE,
+                         e_price IN Engine.price%TYPE) AS
+E_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO E_ROWID FROM Engine WHERE engine_id = e_engine_id FOR UPDATE;
+        UPDATE engine SET engine_code = e_engine_code,
+                           power = e_power,
+                           torque = e_torque,
+                           price = e_price
+                           WHERE ROWID = E_ROWID;
+    COMMIT;
+END edit_engine;
+
+END ENGINES;
+/*CRUD for gearboxes*/
+create or replace PACKAGE BODY GEARBOXES AS
+
+  PROCEDURE add_gearbox (g_type IN Gearbox.type%TYPE,
+                       g_code IN Gearbox.code%TYPE,
+                       g_gearbox_name IN Gearbox.gearbox_name%TYPE,
+                       g_price IN Gearbox.price%TYPE) AS
+  BEGIN
+    INSERT INTO Gearbox(
+    type,
+    code,
+    gearbox_name,
+    price
+)
+VAlUES (
+    g_type,
+    g_code,
+    g_gearbox_name,
+    g_price
+);
+COMMIT;
+  END add_gearbox;
+
+  PROCEDURE delete_gearbox (g_gearbox_id IN gearbox.gearbox_id%TYPE) AS
+  BEGIN
+    DELETE FROM gearbox WHERE gearbox_id = g_gearbox_id;
+  END delete_gearbox;
+
+  PROCEDURE edit_gearbox (g_gearbox_id IN Gearbox.gearbox_id%TYPE,
+                        g_type IN Gearbox.type%TYPE,
+                        g_code IN Gearbox.code%TYPE,
+                        g_gearbox_name IN Gearbox.gearbox_name%TYPE,
+                        g_price IN Gearbox.price%TYPE) AS
+G_ROWID ROWID;
+    BEGIN
+        SELECT ROWID INTO G_ROWID FROM gearbox WHERE gearbox_id = g_gearbox_id FOR UPDATE;
+        UPDATE gearbox SET type = g_type,
+                           code = g_code,
+                           gearbox_name = g_gearbox_name,
+                           price = g_price
+                           WHERE ROWID = G_ROWID;
+        COMMIT;
+  END edit_gearbox;
+
+END GEARBOXES;
+/*Sprawdzanie czy textfieldy isEmpty, csz są wpisane tylko litery czy tylko cyfry*/
+create or replace PACKAGE BODY IS_EMPTY AS
+
+  FUNCTION isEmpty (czySprawdz VARCHAR2)
+                        RETURN NUMBER AS
+  BEGIN
+  if length(czySprawdz)>0 then
+    RETURN 1;
+  else
+    RETURN 0;
+  end if;
+  END isEmpty;
+
+  FUNCTION isCyfry (czySprawdz VARCHAR2)
+                            RETURN NUMBER AS
+  BEGIN
+  if LENGTH(TRIM(TRANSLATE(czySprawdz, ' +-.0123456789',' '))) != 0  then
+    RETURN 1;
+  else
+    RETURN 0;
+  end if;
+  END isCyfry;
+
+  FUNCTION isLitery (czySprawdz VARCHAR2)
+                            RETURN NUMBER AS
+  BEGIN
+   if LENGTH(TRIM(TRANSLATE(LOWER(czySprawdz), ' +№жксіуњїџqabcdefghijklmnoprstuvwxyz',' '))) != 0 then
+    RETURN 1;
+  else
+    RETURN 0;
+  end if;
+  END isLitery;
+
+END IS_EMPTY;
+/*Procedura logowania*/
+create or replace PACKAGE BODY LOGON AS
+
+  PROCEDURE login( c_login IN client.gmail%TYPE, c_password IN client.client_password%TYPE) AS
+    zmienna VARCHAR2(1);
+        BEGIN
+            SELECT '1' into zmienna
+            FROM client
+            WHERE
+                gmail = c_login
+                AND client_password = c_password;
+        EXCEPTION
+            WHEN no_data_found THEN
+                raise_application_error(-20010, 'Podales zle dane');
+  END login;
+END LOGON;
+/* Procedura rejestracji klienta*/
+create or replace PACKAGE BODY REGISTRATION AS
+
+  PROCEDURE registered (c_passport_number IN client.passport_number%TYPE,
+                      c_firstname  IN  client.firstname%TYPE,
+                      c_lastname in client.lastname%TYPE,
+                      c_gmail in client.gmail%TYPE,
+                      c_password in client.client_password%TYPE,
+                      c_address in client.address%TYPE,
+                      c_function in client.function%TYPE) AS
+     BEGIN
+    INSERT INTO client(
+    passport_number,
+    firstname,
+    lastname,
+    gmail,
+    client_password,
+    address,
+    function
+    )
+    VALUES(
+    c_passport_number,
+    c_firstname,
+    c_lastname,
+    c_gmail,
+    c_password,
+    c_address,
+    c_function
+    );
+    EXCEPTION
+    WHEN DUP_VAL_ON_INDEX then RAISE_APPLICATION_ERROR(-20001, 'TAKI LOGIN JUZ ISTNIEJE!');
+    COMMIT;
+    NULL;
+  END registered;
+
+END REGISTRATION;
+/* Wysukiwanie wszystkich komponentów*/
+create or replace PACKAGE BODY SEARCH AS
+
+  PROCEDURE searchCar(text IN VARCHAR2, output OUT SYS_REFCURSOR) AS
+  BEGIN
+   OPEN output FOR 
+    SELECT A.*
+    FROM car A
+    WHERE ( ( instr(upper(a.brand), upper(text), 1 ) ) >0
+    OR (  instr(upper(a.model), upper(text), 1 )  >0) );
+    NULL;
+  END searchCar;
+
+  PROCEDURE searchVersion(text IN VARCHAR2, output OUT SYS_REFCURSOR) AS
+  BEGIN
+    OPEN output FOR 
+    SELECT V.*
+    FROM version V
+    WHERE ( ( instr(upper(v.version_name), upper(text), 1 ) ) >0 );
+    NULL;
+  END searchVersion;
+
+  PROCEDURE searchEngine(text IN VARCHAR2, output OUT SYS_REFCURSOR) AS
+  BEGIN
+   OPEN output FOR 
+    SELECT E.*
+    FROM engine E
+    WHERE ( ( instr(upper(e.power), upper(text), 1 ) ) >0 
+    OR (instr(upper(e.torque), upper(text), 1) >0));
+    NULL;
+  END searchEngine;
+
+  PROCEDURE searchGearbox(text IN VARCHAR2, output OUT SYS_REFCURSOR) AS
+  BEGIN
+    OPEN output FOR 
+    SELECT G.*
+    FROM gearbox G
+    WHERE ( ( instr(upper(g.gearbox_name), upper(text), 1 ) ) >0 
+    OR (instr(upper(g.type), upper(text), 1) >0 ) );
+    NULL;
+    NULL;
+  END searchGearbox;
+
+  PROCEDURE searchColor(text IN VARCHAR2, output OUT SYS_REFCURSOR) AS
+  BEGIN
+     OPEN output FOR 
+     SELECT C.*
+     FROM color C
+    WHERE ( ( instr(upper(c.color_name), upper(text), 1 ) ) >0 );
+  END searchColor;
+
+  PROCEDURE searchOrders(text IN VARCHAR2, output OUT SYS_REFCURSOR) AS
+  BEGIN
+    OPEN output FOR 
+    SELECT S.COMPLETE_SET_ID, A.BRAND, A.MODEL, A.PRODUCTION_YEAR, V.VERSION_NAME, E.POWER, C.COLOR_NAME, G.TYPE, O.ORDER_DATE, O.FULL_PRICE
+    FROM car A, version V, engine E, gearbox G, orders O, color C, complete_set S
+    WHERE  S.COMPLETE_SET_ID = O.COMPLETE_SET_ID
+           AND S.VERSION_ID = V.VERSION_ID
+           AND S.ENGINE_ID = E.ENGINE_ID
+           AND S.CAR_ID = A.CAR_ID
+           AND S.GEARBOX_ID = G.GEARBOX_ID
+           AND S.COLOR_ID = C.COLOR_ID
+    AND ( ( instr(upper(a.brand), upper(text), 1 ) ) >0 
+    OR (  instr(upper(a.model), upper(text), 1 ) ) >0 
+    OR (  instr(upper(v.version_name), upper(text), 1 ) ) >0
+    OR (  instr(upper(e.power), upper(text), 1 ) ) >0
+    OR (  instr(upper(c.color_name), upper(text), 1 ) ) >0
+    OR (  instr(upper(o.order_date), upper(text), 1 )  >0 ) );
+    NULL;
+  END searchOrders;
+
+END SEARCH;
+/* Procedura złożenia zamówienia*/
+create or replace PACKAGE BODY ZAMOWIENIA AS
+
+  PROCEDURE addZamowienie(a_car_id IN complete_set.car_id%TYPE,
+                          a_version_id IN complete_set.version_id%TYPE,
+                          a_engine_id IN complete_set.engine_id%TYPE,
+                        a_gearbox_id IN complete_set.gearbox_id%TYPE,
+                        a_color_id IN complete_set.color_id%TYPE,
+                        o_client_id IN orders.client_id%TYPE,
+                        o_order_date IN orders.order_date%TYPE,
+                        o_full_price IN orders.full_price%TYPE) AS id_complete_set NUMBER;
+BEGIN
+    INSERT INTO complete_set(
+    car_id,
+    version_id,
+    engine_id,
+    gearbox_id,
+    color_id
+    )
+    VALUES (
+      a_car_id,
+      a_version_id,
+      a_engine_id,
+      a_gearbox_id,
+      a_color_id
+    ) RETURNING complete_set_id INTO id_complete_set;
+    
+    INSERT INTO orders
+    (
+    client_id,
+    complete_set_id,
+    order_date,
+    full_price
+    )
+    VALUES(
+    o_client_id,
+    id_complete_set,
+    o_order_date,
+    o_full_price
+    );
+    COMMIT;
+  END addZamowienie;
+
+END ZAMOWIENIA;
